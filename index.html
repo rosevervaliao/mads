@@ -1,0 +1,2213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MADS 211 — Week 2: Types of Media</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d0d0d;
+      --surface: #161616;
+      --card: #1e1e1e;
+      --border: #2a2a2a;
+      --accent1: #e63946;
+      --accent2: #f4a261;
+      --accent3: #52b788;
+      --text: #f0ede8;
+      --muted: #888;
+      --radius: 16px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* HEADER */
+    header {
+      padding: 40px 48px 24px;
+      display: flex;
+      align-items: flex-end;
+      gap: 20px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 120px;
+      height: 3px;
+      background: var(--accent1);
+    }
+
+    .badge {
+      background: var(--accent1);
+      color: #fff;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      letter-spacing: 1px;
+      clip-path: polygon(0 0, 100% 0, 100% 75%, 50% 100%, 0 75%);
+      padding-bottom: 20px;
+    }
+
+    header h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(28px, 5vw, 48px);
+      letter-spacing: 2px;
+      line-height: 1;
+    }
+
+    header p {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 300;
+      margin-top: 4px;
+    }
+
+    /* NAV TABS */
+    nav {
+      display: flex;
+      gap: 0;
+      padding: 0 48px;
+      border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    nav::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 16px 20px;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .tab-btn:hover {
+      color: var(--text);
+    }
+
+    .tab-btn.active {
+      color: var(--text);
+      border-bottom-color: var(--accent1);
+    }
+
+    /* MAIN */
+    main {
+      padding: 40px 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* SECTION */
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    /* TOPIC HEADER */
+    .topic-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .topic-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .topic-header h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      letter-spacing: 2px;
+    }
+
+    .topic-header span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 300;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* ---- FLASHCARDS ---- */
+    .flashcard-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .fc-counter {
+      font-size: 13px;
+      color: var(--muted);
+      letter-spacing: 1px;
+    }
+
+    .fc-controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .icon-btn {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+
+    .icon-btn:hover {
+      background: var(--border);
+    }
+
+    .icon-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .scene {
+      width: 100%;
+      height: 320px;
+      perspective: 1000px;
+      cursor: pointer;
+      margin-bottom: 16px;
+    }
+
+    .card-inner {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .scene.flipped .card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .card-face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .card-front {
+      background: var(--card);
+      border: 1px solid var(--border);
+    }
+
+    .card-back {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      transform: rotateY(180deg);
+    }
+
+    .card-label {
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .card-term {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(28px, 5vw, 48px);
+      letter-spacing: 2px;
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+
+    .card-hint {
+      font-size: 12px;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .card-def {
+      font-size: 15px;
+      line-height: 1.7;
+      font-weight: 300;
+      max-width: 600px;
+    }
+
+    .tap-hint {
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 1px;
+      margin-bottom: 28px;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 3px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--accent1);
+      transition: width 0.3s ease;
+      border-radius: 2px;
+    }
+
+    /* ---- QUIZ ---- */
+    .quiz-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .quiz-score-badge {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 8px 18px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    .quiz-score-badge span {
+      color: var(--accent3);
+    }
+
+    .btn {
+      background: var(--accent1);
+      color: #fff;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 50px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.15s;
+    }
+
+    .btn:hover {
+      opacity: 0.85;
+    }
+
+    .btn.secondary {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .question-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 20px;
+    }
+
+    .q-number {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .q-text {
+      font-size: 17px;
+      font-weight: 400;
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    .choices {
+      display: grid;
+      gap: 10px;
+    }
+
+    .choice {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 18px;
+      cursor: pointer;
+      font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      text-align: left;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .choice:hover:not(:disabled) {
+      border-color: var(--accent2);
+      background: #1e1e1e;
+    }
+
+    .choice:disabled {
+      cursor: default;
+    }
+
+    .choice.correct {
+      border-color: var(--accent3);
+      background: rgba(82, 183, 136, 0.12);
+      color: var(--accent3);
+    }
+
+    .choice.wrong {
+      border-color: var(--accent1);
+      background: rgba(230, 57, 70, 0.12);
+      color: #e66;
+    }
+
+    .choice-letter {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      flex-shrink: 0;
+      transition: all 0.15s;
+    }
+
+    .choice.correct .choice-letter {
+      background: var(--accent3);
+      color: #000;
+    }
+
+    .choice.wrong .choice-letter {
+      background: var(--accent1);
+      color: #fff;
+    }
+
+    .explanation {
+      margin-top: 16px;
+      padding: 14px 18px;
+      border-radius: 10px;
+      font-size: 13px;
+      line-height: 1.6;
+      display: none;
+    }
+
+    .explanation.show {
+      display: block;
+    }
+
+    .explanation.correct-exp {
+      background: rgba(82, 183, 136, 0.1);
+      border-left: 3px solid var(--accent3);
+    }
+
+    .explanation.wrong-exp {
+      background: rgba(230, 57, 70, 0.1);
+      border-left: 3px solid var(--accent1);
+    }
+
+    /* RESULTS */
+    .results-panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 48px;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .results-score {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 80px;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .results-label {
+      color: var(--muted);
+      font-size: 14px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+
+    .result-stat {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .result-stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 36px;
+      margin-bottom: 4px;
+    }
+
+    .result-stat-label {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* SEPARATOR */
+    .topic-sep {
+      height: 1px;
+      background: var(--border);
+      margin: 48px 0;
+    }
+
+    @media (max-width: 640px) {
+
+      header,
+      nav,
+      main {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .results-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .scene {
+        height: 260px;
+      }
+
+      .card-face {
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="badge">W2–W4</div>
+    <div>
+      <h1>Types of Media · Branding · Target Audience</h1>
+      <p>MADS 211 — Multimedia and Design · Weeks 2, 3 &amp; 4</p>
+    </div>
+  </header>
+
+  <nav id="mainNav">
+    <button class="tab-btn active" onclick="showSection('flashcards')">W2 Flashcards</button>
+    <button class="tab-btn" onclick="showSection('quiz')">W2 Quiz</button>
+    <button class="tab-btn" onclick="showSection('flashcards3')">W3 Flashcards</button>
+    <button class="tab-btn" onclick="showSection('quiz3')">W3 Quiz</button>
+    <button class="tab-btn" onclick="showSection('flashcards4')">W4 Flashcards</button>
+    <button class="tab-btn" onclick="showSection('quiz4')">W4 Quiz</button>
+  </nav>
+
+  <main>
+
+    <!-- ============================
+     FLASHCARDS SECTION
+============================= -->
+    <div id="flashcards" class="section active">
+
+      <!-- PRINT MEDIA -->
+      <div class="topic-header">
+        <div class="topic-dot" style="background:#e63946"></div>
+        <div>
+          <h2>Print Media</h2>
+          <span>7 cards</span>
+        </div>
+      </div>
+
+      <div id="fc-print">
+        <div class="progress-bar">
+          <div class="progress-fill" id="prog-print"></div>
+        </div>
+        <div class="flashcard-nav">
+          <span class="fc-counter" id="cnt-print">1 / 7</span>
+          <div class="fc-controls">
+            <button class="icon-btn" id="prev-print" onclick="moveCard('print',-1)" disabled>←</button>
+            <button class="icon-btn" onclick="shuffleCards('print')">⇌</button>
+            <button class="icon-btn" id="next-print" onclick="moveCard('print',1)">→</button>
+          </div>
+        </div>
+        <div class="scene" id="scene-print" onclick="flipCard('print')">
+          <div class="card-inner" id="inner-print">
+            <div class="card-face card-front">
+              <div class="card-label">Term</div>
+              <div class="card-term" id="term-print"></div>
+              <div class="card-hint">Tap to reveal definition</div>
+            </div>
+            <div class="card-face card-back">
+              <div class="card-label">Definition</div>
+              <div class="card-def" id="def-print"></div>
+            </div>
+          </div>
+        </div>
+        <p class="tap-hint">↑ tap card to flip</p>
+      </div>
+
+      <div class="topic-sep"></div>
+
+      <!-- BROADCAST MEDIA -->
+      <div class="topic-header">
+        <div class="topic-dot" style="background:#f4a261"></div>
+        <div>
+          <h2>Broadcast Media</h2>
+          <span>5 cards</span>
+        </div>
+      </div>
+
+      <div id="fc-broadcast">
+        <div class="progress-bar">
+          <div class="progress-fill" id="prog-broadcast"></div>
+        </div>
+        <div class="flashcard-nav">
+          <span class="fc-counter" id="cnt-broadcast">1 / 5</span>
+          <div class="fc-controls">
+            <button class="icon-btn" id="prev-broadcast" onclick="moveCard('broadcast',-1)" disabled>←</button>
+            <button class="icon-btn" onclick="shuffleCards('broadcast')">⇌</button>
+            <button class="icon-btn" id="next-broadcast" onclick="moveCard('broadcast',1)">→</button>
+          </div>
+        </div>
+        <div class="scene" id="scene-broadcast" onclick="flipCard('broadcast')">
+          <div class="card-inner" id="inner-broadcast">
+            <div class="card-face card-front">
+              <div class="card-label">Term</div>
+              <div class="card-term" id="term-broadcast"></div>
+              <div class="card-hint">Tap to reveal definition</div>
+            </div>
+            <div class="card-face card-back">
+              <div class="card-label">Definition</div>
+              <div class="card-def" id="def-broadcast"></div>
+            </div>
+          </div>
+        </div>
+        <p class="tap-hint">↑ tap card to flip</p>
+      </div>
+
+      <div class="topic-sep"></div>
+
+      <!-- NEW MEDIA -->
+      <div class="topic-header">
+        <div class="topic-dot" style="background:#52b788"></div>
+        <div>
+          <h2>New Media</h2>
+          <span>9 cards</span>
+        </div>
+      </div>
+
+      <div id="fc-new">
+        <div class="progress-bar">
+          <div class="progress-fill" id="prog-new"></div>
+        </div>
+        <div class="flashcard-nav">
+          <span class="fc-counter" id="cnt-new">1 / 9</span>
+          <div class="fc-controls">
+            <button class="icon-btn" id="prev-new" onclick="moveCard('new',-1)" disabled>←</button>
+            <button class="icon-btn" onclick="shuffleCards('new')">⇌</button>
+            <button class="icon-btn" id="next-new" onclick="moveCard('new',1)">→</button>
+          </div>
+        </div>
+        <div class="scene" id="scene-new" onclick="flipCard('new')">
+          <div class="card-inner" id="inner-new">
+            <div class="card-face card-front">
+              <div class="card-label">Term</div>
+              <div class="card-term" id="term-new"></div>
+              <div class="card-hint">Tap to reveal definition</div>
+            </div>
+            <div class="card-face card-back">
+              <div class="card-label">Definition</div>
+              <div class="card-def" id="def-new"></div>
+            </div>
+          </div>
+        </div>
+        <p class="tap-hint">↑ tap card to flip</p>
+      </div>
+
+      <div class="topic-sep"></div>
+
+      <!-- GRAPHIC DESIGN FACTORS -->
+      <div class="topic-header">
+        <div class="topic-dot" style="background:#a8dadc"></div>
+        <div>
+          <h2>Factors for Using and Applying Graphic Design</h2>
+          <span>7 cards</span>
+        </div>
+      </div>
+
+      <div id="fc-gd">
+        <div class="progress-bar">
+          <div class="progress-fill" id="prog-gd"></div>
+        </div>
+        <div class="flashcard-nav">
+          <span class="fc-counter" id="cnt-gd">1 / 7</span>
+          <div class="fc-controls">
+            <button class="icon-btn" id="prev-gd" onclick="moveCard('gd',-1)" disabled>←</button>
+            <button class="icon-btn" onclick="shuffleCards('gd')">⇌</button>
+            <button class="icon-btn" id="next-gd" onclick="moveCard('gd',1)">→</button>
+          </div>
+        </div>
+        <div class="scene" id="scene-gd" onclick="flipCard('gd')">
+          <div class="card-inner" id="inner-gd">
+            <div class="card-face card-front">
+              <div class="card-label">Term</div>
+              <div class="card-term" id="term-gd"></div>
+              <div class="card-hint">Tap to reveal definition</div>
+            </div>
+            <div class="card-face card-back">
+              <div class="card-label">Definition</div>
+              <div class="card-def" id="def-gd"></div>
+            </div>
+          </div>
+        </div>
+        <p class="tap-hint">↑ tap card to flip</p>
+      </div>
+
+    </div><!-- end flashcards section -->
+
+
+    <!-- ============================
+     QUIZ SECTION
+============================= -->
+    <div id="quiz" class="section">
+
+      <!-- PRINT QUIZ -->
+      <div class="topic-header">
+        <div class="topic-dot" style="background:#e63946"></div>
+        <div>
+          <h2>Print Media — Quiz</h2>
+          <span>Multiple Choice</span>
+        </div>
+      </div>
+
+      <div class="quiz-header">
+        <div class="quiz-score-badge">Score: <span id="q-score-print">0</span> / <span id="q-total-print">0</span></div>
+        <button class="btn secondary" onclick="resetQuiz('print')">Reset</button>
+      </div>
+      <div id="quiz-print"></div>
+
+      <div class="topic-sep"></div>
+
+      <!-- BROADCAST QUIZ -->
+      <div class="topic-header">
+        <div class="topic-dot" style="background:#f4a261"></div>
+        <div>
+          <h2>Broadcast Media — Quiz</h2>
+          <span>Multiple Choice</span>
+        </div>
+      </div>
+      <div class="quiz-header">
+        <div class="quiz-score-badge">Score: <span id="q-score-broadcast">0</span> / <span
+            id="q-total-broadcast">0</span></div>
+        <button class="btn secondary" onclick="resetQuiz('broadcast')">Reset</button>
+      </div>
+      <div id="quiz-broadcast"></div>
+
+      <div class="topic-sep"></div>
+
+      <!-- NEW MEDIA QUIZ -->
+      <div class="topic-header">
+        <div class="topic-dot" style="background:#52b788"></div>
+        <div>
+          <h2>New Media — Quiz</h2>
+          <span>Multiple Choice</span>
+        </div>
+      </div>
+      <div class="quiz-header">
+        <div class="quiz-score-badge">Score: <span id="q-score-new">0</span> / <span id="q-total-new">0</span></div>
+        <button class="btn secondary" onclick="resetQuiz('new')">Reset</button>
+      </div>
+      <div id="quiz-new"></div>
+
+      <div class="topic-sep"></div>
+
+      <!-- GRAPHIC DESIGN QUIZ -->
+      <div class="topic-header">
+        <div class="topic-dot" style="background:#a8dadc"></div>
+        <div>
+          <h2>Graphic Design Factors — Quiz</h2>
+          <span>Multiple Choice</span>
+        </div>
+      </div>
+      <div class="quiz-header">
+        <div class="quiz-score-badge">Score: <span id="q-score-gd">0</span> / <span id="q-total-gd">0</span></div>
+        <button class="btn secondary" onclick="resetQuiz('gd')">Reset</button>
+      </div>
+      <div id="quiz-gd"></div>
+
+    </div><!-- end quiz section -->
+
+
+    <!-- ============================
+     W3 FLASHCARDS SECTION
+============================= -->
+    <div id="flashcards3" class="section">
+
+      <div class="topic-header">
+        <div class="topic-dot" style="background:#c77dff"></div>
+        <div>
+          <h2>Branding</h2><span>4 cards</span>
+        </div>
+      </div>
+      <div id="fc-branding">
+        <div class="progress-bar">
+          <div class="progress-fill" id="prog-branding"></div>
+        </div>
+        <div class="flashcard-nav">
+          <span class="fc-counter" id="cnt-branding">1 / 4</span>
+          <div class="fc-controls">
+            <button class="icon-btn" id="prev-branding" onclick="moveCard('branding',-1)" disabled>←</button>
+            <button class="icon-btn" onclick="shuffleCards('branding')">⇌</button>
+            <button class="icon-btn" id="next-branding" onclick="moveCard('branding',1)">→</button>
+          </div>
+        </div>
+        <div class="scene" id="scene-branding" onclick="flipCard('branding')">
+          <div class="card-inner" id="inner-branding">
+            <div class="card-face card-front">
+              <div class="card-label">Term</div>
+              <div class="card-term" id="term-branding"></div>
+              <div class="card-hint">Tap to reveal definition</div>
+            </div>
+            <div class="card-face card-back">
+              <div class="card-label">Definition</div>
+              <div class="card-def" id="def-branding"></div>
+            </div>
+          </div>
+        </div>
+        <p class="tap-hint">&#8593; tap card to flip</p>
+      </div>
+
+      <div class="topic-sep"></div>
+
+      <div class="topic-header">
+        <div class="topic-dot" style="background:#ff9f1c"></div>
+        <div>
+          <h2>Brand Elements</h2><span>9 cards</span>
+        </div>
+      </div>
+      <div id="fc-brandelements">
+        <div class="progress-bar">
+          <div class="progress-fill" id="prog-brandelements"></div>
+        </div>
+        <div class="flashcard-nav">
+          <span class="fc-counter" id="cnt-brandelements">1 / 9</span>
+          <div class="fc-controls">
+            <button class="icon-btn" id="prev-brandelements" onclick="moveCard('brandelements',-1)" disabled>←</button>
+            <button class="icon-btn" onclick="shuffleCards('brandelements')">⇌</button>
+            <button class="icon-btn" id="next-brandelements" onclick="moveCard('brandelements',1)">→</button>
+          </div>
+        </div>
+        <div class="scene" id="scene-brandelements" onclick="flipCard('brandelements')">
+          <div class="card-inner" id="inner-brandelements">
+            <div class="card-face card-front">
+              <div class="card-label">Term</div>
+              <div class="card-term" id="term-brandelements"></div>
+              <div class="card-hint">Tap to reveal definition</div>
+            </div>
+            <div class="card-face card-back">
+              <div class="card-label">Definition</div>
+              <div class="card-def" id="def-brandelements"></div>
+            </div>
+          </div>
+        </div>
+        <p class="tap-hint">&#8593; tap card to flip</p>
+      </div>
+
+      <div class="topic-sep"></div>
+
+      <div class="topic-header">
+        <div class="topic-dot" style="background:#4cc9f0"></div>
+        <div>
+          <h2>Packaging &amp; Labelling</h2><span>16 cards</span>
+        </div>
+      </div>
+      <div id="fc-packaging">
+        <div class="progress-bar">
+          <div class="progress-fill" id="prog-packaging"></div>
+        </div>
+        <div class="flashcard-nav">
+          <span class="fc-counter" id="cnt-packaging">1 / 16</span>
+          <div class="fc-controls">
+            <button class="icon-btn" id="prev-packaging" onclick="moveCard('packaging',-1)" disabled>←</button>
+            <button class="icon-btn" onclick="shuffleCards('packaging')">⇌</button>
+            <button class="icon-btn" id="next-packaging" onclick="moveCard('packaging',1)">→</button>
+          </div>
+        </div>
+        <div class="scene" id="scene-packaging" onclick="flipCard('packaging')">
+          <div class="card-inner" id="inner-packaging">
+            <div class="card-face card-front">
+              <div class="card-label">Term</div>
+              <div class="card-term" id="term-packaging"></div>
+              <div class="card-hint">Tap to reveal definition</div>
+            </div>
+            <div class="card-face card-back">
+              <div class="card-label">Definition</div>
+              <div class="card-def" id="def-packaging"></div>
+            </div>
+          </div>
+        </div>
+        <p class="tap-hint">&#8593; tap card to flip</p>
+      </div>
+
+    </div><!-- end flashcards3 -->
+
+
+    <!-- ============================
+     W3 QUIZ SECTION
+============================= -->
+    <div id="quiz3" class="section">
+
+      <div class="topic-header">
+        <div class="topic-dot" style="background:#c77dff"></div>
+        <div>
+          <h2>Branding &#8212; Quiz</h2><span>Multiple Choice</span>
+        </div>
+      </div>
+      <div class="quiz-header">
+        <div class="quiz-score-badge">Score: <span id="q-score-branding">0</span> / <span id="q-total-branding">0</span>
+        </div>
+        <button class="btn secondary" onclick="resetQuiz('branding')">Reset</button>
+      </div>
+      <div id="quiz-branding"></div>
+
+      <div class="topic-sep"></div>
+
+      <div class="topic-header">
+        <div class="topic-dot" style="background:#ff9f1c"></div>
+        <div>
+          <h2>Brand Elements &#8212; Quiz</h2><span>Multiple Choice</span>
+        </div>
+      </div>
+      <div class="quiz-header">
+        <div class="quiz-score-badge">Score: <span id="q-score-brandelements">0</span> / <span
+            id="q-total-brandelements">0</span></div>
+        <button class="btn secondary" onclick="resetQuiz('brandelements')">Reset</button>
+      </div>
+      <div id="quiz-brandelements"></div>
+
+      <div class="topic-sep"></div>
+
+      <div class="topic-header">
+        <div class="topic-dot" style="background:#4cc9f0"></div>
+        <div>
+          <h2>Packaging &amp; Labelling &#8212; Quiz</h2><span>Multiple Choice</span>
+        </div>
+      </div>
+      <div class="quiz-header">
+        <div class="quiz-score-badge">Score: <span id="q-score-packaging">0</span> / <span
+            id="q-total-packaging">0</span></div>
+        <button class="btn secondary" onclick="resetQuiz('packaging')">Reset</button>
+      </div>
+      <div id="quiz-packaging"></div>
+
+    </div><!-- end quiz3 -->
+
+
+    <!-- ============================
+     W4 FLASHCARDS SECTION
+============================= -->
+    <div id="flashcards4" class="section">
+
+      <div class="topic-header">
+        <div class="topic-dot" style="background:#f72585"></div>
+        <div>
+          <h2>Target Audience &amp; Market Segment</h2><span>6 cards</span>
+        </div>
+      </div>
+      <div id="fc-targetaudience">
+        <div class="progress-bar">
+          <div class="progress-fill" id="prog-targetaudience"></div>
+        </div>
+        <div class="flashcard-nav">
+          <span class="fc-counter" id="cnt-targetaudience">1 / 6</span>
+          <div class="fc-controls">
+            <button class="icon-btn" id="prev-targetaudience" onclick="moveCard('targetaudience',-1)"
+              disabled>←</button>
+            <button class="icon-btn" onclick="shuffleCards('targetaudience')">⇌</button>
+            <button class="icon-btn" id="next-targetaudience" onclick="moveCard('targetaudience',1)">→</button>
+          </div>
+        </div>
+        <div class="scene" id="scene-targetaudience" onclick="flipCard('targetaudience')">
+          <div class="card-inner" id="inner-targetaudience">
+            <div class="card-face card-front">
+              <div class="card-label">Term</div>
+              <div class="card-term" id="term-targetaudience"></div>
+              <div class="card-hint">Tap to reveal definition</div>
+            </div>
+            <div class="card-face card-back">
+              <div class="card-label">Definition</div>
+              <div class="card-def" id="def-targetaudience"></div>
+            </div>
+          </div>
+        </div>
+        <p class="tap-hint">&#8593; tap card to flip</p>
+      </div>
+
+      <div class="topic-sep"></div>
+
+      <div class="topic-header">
+        <div class="topic-dot" style="background:#4361ee"></div>
+        <div>
+          <h2>Market Segment Variables</h2><span>4 cards</span>
+        </div>
+      </div>
+      <div id="fc-segmentvars">
+        <div class="progress-bar">
+          <div class="progress-fill" id="prog-segmentvars"></div>
+        </div>
+        <div class="flashcard-nav">
+          <span class="fc-counter" id="cnt-segmentvars">1 / 4</span>
+          <div class="fc-controls">
+            <button class="icon-btn" id="prev-segmentvars" onclick="moveCard('segmentvars',-1)" disabled>←</button>
+            <button class="icon-btn" onclick="shuffleCards('segmentvars')">⇌</button>
+            <button class="icon-btn" id="next-segmentvars" onclick="moveCard('segmentvars',1)">→</button>
+          </div>
+        </div>
+        <div class="scene" id="scene-segmentvars" onclick="flipCard('segmentvars')">
+          <div class="card-inner" id="inner-segmentvars">
+            <div class="card-face card-front">
+              <div class="card-label">Term</div>
+              <div class="card-term" id="term-segmentvars"></div>
+              <div class="card-hint">Tap to reveal definition</div>
+            </div>
+            <div class="card-face card-back">
+              <div class="card-label">Definition</div>
+              <div class="card-def" id="def-segmentvars"></div>
+            </div>
+          </div>
+        </div>
+        <p class="tap-hint">&#8593; tap card to flip</p>
+      </div>
+
+      <div class="topic-sep"></div>
+
+      <div class="topic-header">
+        <div class="topic-dot" style="background:#06d6a0"></div>
+        <div>
+          <h2>Factors in Determining Target Audience for Design</h2><span>4 cards</span>
+        </div>
+      </div>
+      <div id="fc-designfactors">
+        <div class="progress-bar">
+          <div class="progress-fill" id="prog-designfactors"></div>
+        </div>
+        <div class="flashcard-nav">
+          <span class="fc-counter" id="cnt-designfactors">1 / 4</span>
+          <div class="fc-controls">
+            <button class="icon-btn" id="prev-designfactors" onclick="moveCard('designfactors',-1)" disabled>←</button>
+            <button class="icon-btn" onclick="shuffleCards('designfactors')">⇌</button>
+            <button class="icon-btn" id="next-designfactors" onclick="moveCard('designfactors',1)">→</button>
+          </div>
+        </div>
+        <div class="scene" id="scene-designfactors" onclick="flipCard('designfactors')">
+          <div class="card-inner" id="inner-designfactors">
+            <div class="card-face card-front">
+              <div class="card-label">Term</div>
+              <div class="card-term" id="term-designfactors"></div>
+              <div class="card-hint">Tap to reveal definition</div>
+            </div>
+            <div class="card-face card-back">
+              <div class="card-label">Definition</div>
+              <div class="card-def" id="def-designfactors"></div>
+            </div>
+          </div>
+        </div>
+        <p class="tap-hint">&#8593; tap card to flip</p>
+      </div>
+
+    </div><!-- end flashcards4 -->
+
+
+    <!-- ============================
+     W4 QUIZ SECTION
+============================= -->
+    <div id="quiz4" class="section">
+
+      <div class="topic-header">
+        <div class="topic-dot" style="background:#f72585"></div>
+        <div>
+          <h2>Target Audience &amp; Market Segment &#8212; Quiz</h2><span>Multiple Choice</span>
+        </div>
+      </div>
+      <div class="quiz-header">
+        <div class="quiz-score-badge">Score: <span id="q-score-targetaudience">0</span> / <span
+            id="q-total-targetaudience">0</span></div>
+        <button class="btn secondary" onclick="resetQuiz('targetaudience')">Reset</button>
+      </div>
+      <div id="quiz-targetaudience"></div>
+
+      <div class="topic-sep"></div>
+
+      <div class="topic-header">
+        <div class="topic-dot" style="background:#4361ee"></div>
+        <div>
+          <h2>Market Segment Variables &#8212; Quiz</h2><span>Multiple Choice</span>
+        </div>
+      </div>
+      <div class="quiz-header">
+        <div class="quiz-score-badge">Score: <span id="q-score-segmentvars">0</span> / <span
+            id="q-total-segmentvars">0</span></div>
+        <button class="btn secondary" onclick="resetQuiz('segmentvars')">Reset</button>
+      </div>
+      <div id="quiz-segmentvars"></div>
+
+      <div class="topic-sep"></div>
+
+      <div class="topic-header">
+        <div class="topic-dot" style="background:#06d6a0"></div>
+        <div>
+          <h2>Factors in Determining Target Audience &#8212; Quiz</h2><span>Multiple Choice</span>
+        </div>
+      </div>
+      <div class="quiz-header">
+        <div class="quiz-score-badge">Score: <span id="q-score-designfactors">0</span> / <span
+            id="q-total-designfactors">0</span></div>
+        <button class="btn secondary" onclick="resetQuiz('designfactors')">Reset</button>
+      </div>
+      <div id="quiz-designfactors"></div>
+
+    </div><!-- end quiz4 -->
+
+  </main>
+
+  <script>
+    // =====================
+    // DATA
+    // =====================
+
+    const CARDS = {
+      print: [{
+          term: "Print Media",
+          def: "A form of mass communication where information is delivered to the public through printed materials. It uses physical formats like paper and ink to share news, knowledge, advertisements, and entertainment. Even in the digital age, print media is still widely used in schools, offices, and communities because it's tangible, credible, and easy to access."
+        },
+        {
+          term: "Newspaper",
+          def: "A print media publication that provides news, information, and opinions about current events. It is usually published daily or weekly and contains articles on local, national, and international news, as well as sections for editorials, sports, business, entertainment, and advertisements."
+        },
+        {
+          term: "Magazine",
+          def: "A printed or digital publication that is released regularly (weekly, monthly, quarterly, etc.) and contains articles, stories, images, and advertisements focused on specific topics or interests. Unlike newspapers, magazines usually offer more detailed and feature-style content."
+        },
+        {
+          term: "Books",
+          def: "A type of print media that contain written (and sometimes illustrated) information bound together in physical or digital form. They are created to inform, educate, entertain, or record knowledge. Books are one of the oldest and most reliable ways of preserving and sharing information across generations."
+        },
+        {
+          term: "Brochures",
+          def: "A printed or digital informational material designed to promote, inform, or advertise a product, service, event, organization, or idea. It usually combines text, images, graphics, and layout design to communicate key information clearly and attractively."
+        },
+        {
+          term: "Posters",
+          def: "A visual communication medium designed to inform, persuade, or advertise. It usually combines text, images, colors, and layout to deliver a message quickly and clearly to a large audience. Posters are commonly displayed in public places like schools, streets, offices, bulletin boards, and events."
+        },
+        {
+          term: "Direct Mail",
+          def: "A type of advertising media where promotional messages are sent directly to a specific audience through physical mail. Instead of reaching the general public like TV or radio, it targets selected individuals or households. Direct Mail involves sending printed materials straight to a recipient's home or business address to promote a product, service, event, or organization."
+        },
+        {
+          term: "Yellow Pages",
+          def: "A directory that lists businesses and services, organized alphabetically by category (e.g., restaurants, plumbers, hospitals), along with their contact details such as address and phone number. It was traditionally printed on yellow paper hence the name and distributed to households and offices."
+        },
+        {
+          term: "Maps",
+          def: "Visual representations of geographic information that are printed on physical materials such as newspapers, magazines, textbooks, brochures, atlases, posters, and reports. They help readers understand locations, directions, distances, and spatial relationships quickly and clearly without needing digital devices."
+        },
+      ],
+      broadcast: [{
+          term: "Broadcast Media",
+          def: "A type of mass communication that transmits information, entertainment, or advertising to a large audience simultaneously, usually through electronic means. The term 'broadcast' comes from agriculture, meaning 'to scatter seeds widely,' which is similar to sending information widely to the public."
+        },
+        {
+          term: "Telephone",
+          def: "An electronic communication device that allows people to transmit and receive voice messages over distances. It converts sound (voice) into electrical signals, sends them through a network (wired or wireless), and then converts them back into sound at the receiver's end."
+        },
+        {
+          term: "Radio",
+          def: "A form of broadcast media that transmits audio content (voice, music, news, advertisements, and other programs) through electromagnetic waves to a wide audience. It is one of the oldest forms of electronic media and remains popular due to its accessibility and immediacy."
+        },
+        {
+          term: "Television",
+          def: "A broadcast medium that transmits audio-visual content to a wide audience through electromagnetic signals or digital platforms. It combines moving images, sound, and text to deliver entertainment, news, advertisements, and educational programs. Television is one of the most influential media because it reaches mass audiences simultaneously."
+        },
+        {
+          term: "Direct Broadcast Satellite (DBS)",
+          def: "A television or radio broadcasting service that delivers signals directly from a satellite to a user's receiver, usually a small satellite dish installed at the subscriber's home. Unlike traditional satellite TV, which may require a larger dish and multiple intermediate steps, DBS transmits signals straight to the consumer."
+        },
+        {
+          term: "Public Service Announcement (PSA)",
+          def: "A message created to inform, educate, or raise awareness about issues of public interest. Unlike advertisements, PSAs are non-commercial and aim to benefit society rather than promote a product or service. They are typically short, clear, and designed to grab attention to influence public behavior or attitudes."
+        },
+      ],
+      new: [{
+          term: "New Media",
+          def: "Forms of media that are digitally based, interactive, and often internet-driven. Unlike traditional media (like newspapers, radio, or TV), new media allows two-way communication, user-generated content, and real-time updates."
+        },
+        {
+          term: "Social Media",
+          def: "Online platforms and technologies that allow people to create, share, and interact with content, as well as communicate with others. It is a form of digital communication that enables users to connect globally, share ideas, opinions, photos, videos, and more in real time."
+        },
+        {
+          term: "Video Streaming",
+          def: "The process of transmitting video content over the internet in real-time, allowing users to watch it without downloading the entire file first. Instead of waiting for the full video to download, streaming sends small chunks of data continuously, so playback begins almost immediately."
+        },
+        {
+          term: "Augmented Reality (AR)",
+          def: "A technology that overlays digital content (images, videos, 3D models, sounds, or information) onto the real-world environment in real time. Unlike Virtual Reality (VR), which creates a completely immersive digital environment, AR enhances the real world with virtual elements."
+        },
+        {
+          term: "Virtual Reality (VR)",
+          def: "A computer-generated simulation or environment that immerses users in a 3D interactive experience, often through specialized devices like VR headsets, gloves, or motion sensors. VR can simulate real-world places or create completely fictional worlds. The goal is to make users feel as if they are physically present in the virtual environment."
+        },
+        {
+          term: "Online Games",
+          def: "Video games that are played over the internet, allowing players to interact with other players or a game server in real-time. These games can be accessed via computers, consoles, or mobile devices. Online games often include social features, competition, and collaboration with other players around the world."
+        },
+        {
+          term: "Blog",
+          def: "An online platform where individuals or organizations regularly publish content, called posts, on a specific topic or multiple topics. Blogs are usually written in an informal or conversational style and can include text, images, videos, or links."
+        },
+        {
+          term: "E-book",
+          def: "A digital version of a printed book that can be read on electronic devices such as computers, tablets, e-readers (like Kindle), or smartphones. E-Books allow users to access text, images, and sometimes multimedia content without the need for physical paper."
+        },
+        {
+          term: "Music Streaming",
+          def: "The process of listening to music in real-time over the internet without having to download the audio files to your device. Instead of owning the music, you access it from online platforms where it is stored on remote servers."
+        },
+        {
+          term: "Podcast",
+          def: "A digital audio or video program that people can stream or download from the internet. Podcasts usually focus on specific topics, stories, or themes, and are often released in episodes on a regular schedule."
+        },
+        {
+          term: "Live Events",
+          def: "Any event that occurs in real-time, where the audience experiences it as it happens, either physically or virtually. It is often interactive, meaning participants can engage with the event immediately."
+        },
+        {
+          term: "Application",
+          def: "A computer program designed to carry out a specific task other than one relating to the operation of the computer itself, typically to be used by end-users. Word processors, media players, and accounting software are examples."
+        },
+      ],
+      gd: [{
+          term: "Appropriateness",
+          def: "Refers to whether the design is suitable for the intended audience and purpose."
+        },
+        {
+          term: "Simplicity",
+          def: "Simplicity and precision both relate to the effectiveness of the design in conveying the desired message."
+        },
+        {
+          term: "Color",
+          def: "Color structure and layout, and materials all contribute to the overall aesthetic of the design."
+        },
+        {
+          term: "Communication",
+          def: "Communication with clients and audience is important to ensure that the design meets their needs and expectations."
+        },
+        {
+          term: "Creativity",
+          def: "Design are essential for making the project stand out and capture attention."
+        },
+        {
+          term: "Relevance",
+          def: "Refers to how closely the design aligns with current trends and industry standards."
+        },
+        {
+          term: "Quality",
+          def: "Is a measure of how well the design meets its intended purpose and is free from defects or errors."
+        },
+      ],
+
+      // W3
+      branding: [{
+          term: "Branding",
+          def: "The process of establishing a product or service in the consumer's mind a distinctive name and image through advertising campaigns with a consistent concept. It is intended to raise the value of the good or service and set it apart from alternatives. The overarching objective of branding is to foster brand loyalty and positive attitudes, which will increase sales. Examples of branding techniques include the use of logos, taglines, jingles or mascots."
+        },
+        {
+          term: "Brand Name",
+          def: "A name or term that is used to identify a particular brand or product. The brand name is often used in conjunction with a logo or other visual elements to create a brand identity that is easily recognizable by consumers. A brand name can be a word, phrase, or symbol that is used to represent a company or its products. Examples are Apple, Google, Nike, Coca-Cola, Microsoft."
+        },
+        {
+          term: "Brand Mark",
+          def: "A logo or other graphic component that is used to identify a firm or brand. It frequently goes along with a brand name to form a full brand identity. An image, icon, or emblem that is instantly identifiable and aids in differentiating a company from its rivals can serve as a brand mark. Some examples of brand marks include the Nike swoosh, the Apple apple, and the Mercedes-Benz three-pointed star. Since brand markings are easily recalled and connected to favorable experiences and impressions of the business, they can be effective instruments for fostering brand recognition and customer loyalty."
+        },
+        {
+          term: "Trademark",
+          def: "A form of intellectual property intended to safeguard distinctive words, phrases, symbols, or designs that are used to identify and distinguish a product or service apart from others. The use of trademarks serves to safeguard a company's reputation and goodwill while discouraging competitors from adopting marks that could lead to customer confusion. To gain legal protection and to make it simpler to enforce the rights connected to the mark, trademarks can be registered with the government. A trademark registration is typically valid for ten to twenty years before it expires and can then be extended for further times."
+        },
+      ],
+      brandelements: [{
+          term: "Relevance (Brand Element)",
+          def: "The components you pick must be appropriate for your brand and the products and services you provide."
+        },
+        {
+          term: "Differentiation (Brand Element)",
+          def: "Your brand's elements has to let you stand out from the competition."
+        },
+        {
+          term: "Consistency (Brand Element)",
+          def: "Each aspect of your brand should complement the others and your overall brand identity."
+        },
+        {
+          term: "Flexibility (Brand Element)",
+          def: "The characteristics of your brand should be adaptable enough to be used in a range of settings and across various media."
+        },
+        {
+          term: "Memorable (Brand Element)",
+          def: "The contents of your brand should be appealing to consumers and simple for them to recall."
+        },
+        {
+          term: "Timeless (Brand Element)",
+          def: "The elements of your brand should be durable and should not easily go out of style."
+        },
+        {
+          term: "Emotional Impact (Brand Element)",
+          def: "Your brand's elements should evoke feelings in your target market and contribute to the creation of an emotional bond with your identity."
+        },
+        {
+          term: "Cultural Fit (Brand Element)",
+          def: "Your brand's elements should be suitable for both your target market and the environment in which they function."
+        },
+        {
+          term: "Legal Considerations (Brand Element)",
+          def: "You should make absolutely sure that none of your brand features violate any existing copyrights or trademarks."
+        },
+      ],
+      packaging: [{
+          term: "Product Packaging",
+          def: "Refers to all aspects of a product's packaging, including the container it is sold in and any additional packing or labeling. The major goals of product packaging are to present the product in an appealing way to consumers and to safeguard the goods during handling, storage, and transportation. Product packaging can assist in communicating the brand's image and values to customers, which is another way it contributes to branding."
+        },
+        {
+          term: "Product Labeling",
+          def: "The term used to describe the details that are printed on a product's package or label. This information can consist of the name of the product, its components, how to use it, and any relevant cautionary or warning remarks. Product labeling is a crucial component of product packaging because it gives buyers crucial knowledge about the product and facilitates informed purchasing decisions."
+        },
+        {
+          term: "The Package Itself",
+          def: "The actual container or wrapper for the goods is called the package. It may be constructed from several materials, including cardboard, plastic, glass, or metal."
+        },
+        {
+          term: "Labeling (Package Component)",
+          def: "Labeling is anything written or drawn on a package, such as the name of the company, the name of the item, a list of the ingredients, and usage guidelines."
+        },
+        {
+          term: "Graphics and Imagery (Package Component)",
+          def: "This category comprises any visual components needed to convey a brand's and a product's benefits, such as logos, pictures, or illustrations."
+        },
+        {
+          term: "Color and Design (Package Component)",
+          def: "A brand's overall appearance and feel can be conveyed through the use of color and design components, which can also serve to draw in and keep customers."
+        },
+        {
+          term: "Shape and Size (Package Component)",
+          def: "Should be taken into consideration during the design process as they might have an impact on the package's overall appeal and usage."
+        },
+        {
+          term: "Materials and Sustainability (Package Component)",
+          def: "The packaging materials used for a product can affect its environmental sustainability, and some businesses may opt to employ eco-friendly materials to appeal to consumers who are concerned about the environment."
+        },
+        {
+          term: "Product Name (Label Component)",
+          def: "The product's name should be prominently and clearly stated on the packaging."
+        },
+        {
+          term: "Ingredients (Label Component)",
+          def: "The packaging should provide a list of the ingredients used in the product, either on the main label or on a separate information panel."
+        },
+        {
+          term: "Net Weight or Volume (Label Component)",
+          def: "The packaging for the product should clearly state the product's net weight or volume."
+        },
+        {
+          term: "Usage Guidance (Label Component)",
+          def: "The packaging should contain any relevant usage guidance, such as how to use the product or how to apply it."
+        },
+        {
+          term: "Warnings and Cautionary Notes (Label Component)",
+          def: "The product's packaging should make it abundantly obvious whether it includes any potentially dangerous components or poses any hazards to users."
+        },
+        {
+          term: "Date of Expiration (Label Component)",
+          def: "If the product has a short shelf life, this information needs to be on the container."
+        },
+        {
+          term: "Company Information (Label Component)",
+          def: "The manufacturer's or distributor's name and contact details must to be printed on the box."
+        },
+        {
+          term: "Country of Origin (Label Component)",
+          def: "The packaging should include information about the nation in which the product was manufactured or put together."
+        },
+      ],
+
+      // W4
+      targetaudience: [{
+          term: "Target Audience",
+          def: "The specified set of people for whom a product or service is designed is referred to as the target audience. Identifying and comprehending the traits and requirements of the target market is crucial when creating a product or marketing strategy. A company that sells children's toys, for instance, will probably have a different target market than one that offers high-end luxury vehicles. A company can develop goods or marketing initiatives that appeal to and successfully reach the target audience by having a thorough understanding of the demographics, interests, and demands of this group."
+        },
+        {
+          term: "Market Segmentation",
+          def: "The technique of splitting a market into smaller, more specialized groups of customers with comparable demands or features is known as market segmentation. This enables a corporation to target particular market segments with its products or marketing initiatives and better serve their requirements. Age, gender, economic level, location, and interests are just a few of the variables that can be used to segment the market. An organization can build items that specifically cater to the needs of various consumer groups by segmenting the market and developing customized marketing strategies."
+        },
+        {
+          term: "Brand Packaging",
+          def: "A tool that aids businesses in developing powerful branding strategies through packaging design. By combining packaging and design, firms may stand out from the competition and be perceived as a reflection of their target audience's lifestyle. Information on trends, news, and innovations pertaining to consumer-packaged goods is made available to brand owners, designers, suppliers, and marketers through this resource."
+        },
+        {
+          term: "Demographic Variable",
+          def: "Demographic variables include characteristics such as age, gender, income level, education level, and geographic location."
+        },
+        {
+          term: "Psychographic Variable",
+          def: "Psychographic variables refer to characteristics related to a person's values, attitudes, and interests. These can include lifestyle, personality, and values."
+        },
+        {
+          term: "Behavioral Variables",
+          def: "Behavioral variables refer to how consumers behave or what they do. These can include factors such as purchasing habits, usage rate, and loyalty."
+        },
+      ],
+      segmentvars: [{
+          term: "Demographic Variable",
+          def: "Demographic variables include characteristics such as age, gender, income level, education level, and geographic location."
+        },
+        {
+          term: "Psychographic Variable",
+          def: "Psychographic variables refer to characteristics related to a person's values, attitudes, and interests. These can include lifestyle, personality, and values."
+        },
+        {
+          term: "Behavioral Variables",
+          def: "Behavioral variables refer to how consumers behave or what they do. These can include factors such as purchasing habits, usage rate, and loyalty."
+        },
+        {
+          term: "Geographic Variable",
+          def: "Geographic variables include characteristics related to a person's location, such as region, country, or city."
+        },
+      ],
+      designfactors: [{
+          term: "Client's Company Name",
+          def: "It is important to provide your designers with the name of the client's company and an overview of the client's business or organization. This information will help the designers understand the context and purpose of the design work they are completing."
+        },
+        {
+          term: "Industry Sector",
+          def: "When providing context for a design project, it is crucial to mention the industry in which the customer operates. Healthcare and pharmaceuticals, airlines, the food and beverage industry, financial services, household and consumer goods, government, industrial and manufacturing, retail, sports and entertainment, technology and communications, telecommunications and mobility, tourism and hospitality, restaurants, real estate and development, and beverages are a few examples of potential industries that a client might be involved in."
+        },
+        {
+          term: "What the Business Does",
+          def: "It is also important to let the designers know if the design is for a product or service that the client is selling, as this will help them create designs that effectively support the client's business goals."
+        },
+        {
+          term: "Primary Target Audience",
+          def: "When determining the target audience for a design project, it is important to consider factors such as age, gender, income, occupation, and location. In addition to these demographic characteristics, it is also helpful to consider the lifestyle and business needs of the target audience in order to create designs that are relevant and effective."
+        },
+      ],
+    };
+
+    const QUIZZES = {
+      print: [{
+          q: "Which type of print media is typically published daily or weekly and covers local, national, and international news?",
+          choices: ["Magazine", "Newspaper", "Brochure", "Yellow Pages"],
+          answer: 1
+        },
+        {
+          q: "What distinguishes a magazine from a newspaper in terms of content?",
+          choices: ["Magazines are only published once a year", "Magazines are always free of charge",
+            "Magazines offer more detailed and feature-style content", "Magazines focus only on sports news"
+          ],
+          answer: 2
+        },
+        {
+          q: "Which print media is described as one of the oldest and most reliable ways of preserving and sharing information across generations?",
+          choices: ["Brochures", "Yellow Pages", "Direct Mail", "Books"],
+          answer: 3
+        },
+        {
+          q: "A brochure is best described as:",
+          choices: ["A large-format poster placed on highways",
+            "An informational material that combines text, images, and layout design to promote or advertise",
+            "A printed directory of businesses organized alphabetically",
+            "A daily publication that covers current events"
+          ],
+          answer: 1
+        },
+        {
+          q: "Which print media targets specific individuals or households instead of reaching the general public like TV or radio?",
+          choices: ["Newspaper", "Poster", "Direct Mail", "Map"],
+          answer: 2
+        },
+        {
+          q: "Yellow Pages is organized:",
+          choices: ["By date of registration", "Alphabetically by category with contact details",
+            "By geographic region only", "By business size"
+          ],
+          answer: 1
+        },
+        {
+          q: "Maps in print media help readers understand all of the following EXCEPT:",
+          choices: ["Locations", "Directions", "Distances", "Audio signals"],
+          answer: 3
+        },
+        {
+          q: "Posters are commonly displayed in which of the following places?",
+          choices: ["Only in government buildings", "Schools, streets, offices, bulletin boards, and events",
+            "Only inside shopping malls", "Exclusively on television screens"
+          ],
+          answer: 1
+        },
+      ],
+      broadcast: [{
+          q: "The term 'broadcast' originated from agriculture and means:",
+          choices: ["To record information digitally", "To scatter seeds widely", "To transmit via satellite",
+            "To distribute newspapers"
+          ],
+          answer: 1
+        },
+        {
+          q: "How does a telephone transmit voice messages?",
+          choices: ["By printing them on paper",
+            "By converting sound into electromagnetic waves sent to satellites",
+            "By converting sound into electrical signals sent through a network", "By using direct mail delivery"
+          ],
+          answer: 2
+        },
+        {
+          q: "Radio remains popular as a broadcast medium because of its:",
+          choices: ["Use of moving images and sound", "Accessibility and immediacy",
+            "Ability to target specific households", "High-definition visual content"
+          ],
+          answer: 1
+        },
+        {
+          q: "Which broadcast medium is described as one of the most influential because it reaches mass audiences simultaneously?",
+          choices: ["Radio", "Telephone", "Television", "Direct Broadcast Satellite"],
+          answer: 2
+        },
+        {
+          q: "What is the main difference between Direct Broadcast Satellite (DBS) and traditional satellite TV?",
+          choices: ["DBS requires a larger satellite dish",
+            "DBS transmits signals straight to the consumer using a small dish",
+            "DBS only broadcasts radio content", "DBS requires multiple intermediate steps"
+          ],
+          answer: 1
+        },
+        {
+          q: "A Public Service Announcement (PSA) is different from a regular advertisement because:",
+          choices: ["PSAs are longer and more expensive to produce",
+            "PSAs promote commercial products and services", "PSAs are non-commercial and aim to benefit society",
+            "PSAs are only aired during prime time"
+          ],
+          answer: 2
+        },
+        {
+          q: "Which of the following is NOT a characteristic of a PSA?",
+          choices: ["It is short and clear", "It is designed to influence public behavior or attitudes",
+            "It promotes a specific brand or product for profit",
+            "It raises awareness about public interest issues"
+          ],
+          answer: 2
+        },
+      ],
+      new: [{
+          q: "What sets New Media apart from traditional media like newspapers and radio?",
+          choices: ["New media uses only printed formats",
+            "New media allows two-way communication and user-generated content",
+            "New media is only available on television", "New media does not support real-time updates"
+          ],
+          answer: 1
+        },
+        {
+          q: "Social Media enables users to:",
+          choices: ["Only read articles written by journalists",
+            "Connect globally and share ideas, opinions, photos, and videos in real time",
+            "Watch content without an internet connection", "Download and own music permanently"
+          ],
+          answer: 1
+        },
+        {
+          q: "In video streaming, content is delivered by:",
+          choices: ["Downloading the entire file before playback begins",
+            "Sending small chunks of data continuously for near-immediate playback",
+            "Mailing physical storage devices to users", "Broadcasting through electromagnetic waves only"
+          ],
+          answer: 1
+        },
+        {
+          q: "How does Augmented Reality (AR) differ from Virtual Reality (VR)?",
+          choices: ["AR replaces the real world entirely with a digital one",
+            "AR requires a VR headset to function", "AR overlays digital content onto the real-world environment",
+            "AR can only display text, not images or 3D models"
+          ],
+          answer: 2
+        },
+        {
+          q: "Virtual Reality (VR) is designed to make users feel as if they are:",
+          choices: ["Watching a movie on a flat screen", "Physically present in a virtual environment",
+            "Reading a digital e-book", "Listening to a podcast"
+          ],
+          answer: 1
+        },
+        {
+          q: "Which of the following best describes a blog?",
+          choices: ["A formal academic journal published in print", "A satellite broadcasting service",
+            "An online platform where individuals regularly publish posts in a conversational style",
+            "A computer program for operating systems"
+          ],
+          answer: 2
+        },
+        {
+          q: "An E-book differs from a printed book because:",
+          choices: ["E-books can only contain text, not images",
+            "E-books are read on electronic devices and do not require physical paper",
+            "E-books are only accessible through satellite", "E-books must be downloaded and cannot be streamed"
+          ],
+          answer: 1
+        },
+        {
+          q: "Music streaming means:",
+          choices: ["Permanently downloading audio files to your device",
+            "Owning the music stored on a local hard drive",
+            "Listening to music in real-time over the internet without downloading the audio files",
+            "Broadcasting music through electromagnetic waves"
+          ],
+          answer: 2
+        },
+        {
+          q: "A Podcast is best described as:",
+          choices: ["A live television broadcast", "A printed magazine with audio QR codes",
+            "A digital audio or video program available to stream or download from the internet",
+            "A social media post with a video attached"
+          ],
+          answer: 2
+        },
+        {
+          q: "Which of the following is an example of an Application?",
+          choices: ["A satellite dish", "A word processor or media player", "A printed brochure",
+            "A radio antenna"],
+          answer: 1
+        },
+      ],
+      gd: [{
+          q: "Which graphic design factor refers to whether the design is suitable for the intended audience and purpose?",
+          choices: ["Creativity", "Quality", "Appropriateness", "Relevance"],
+          answer: 2
+        },
+        {
+          q: "The factor of Simplicity in graphic design relates to:",
+          choices: ["Using as many colors as possible",
+            "The effectiveness of the design in conveying the desired message with precision",
+            "Making designs as complex as possible to impress clients", "Choosing the most expensive materials"
+          ],
+          answer: 1
+        },
+        {
+          q: "In graphic design, Color contributes to:",
+          choices: ["The overall aesthetic including structure, layout, and materials",
+            "The legal rights of the designer", "The speed of printing", "The font selection only"
+          ],
+          answer: 0
+        },
+        {
+          q: "Why is Communication an important factor in graphic design?",
+          choices: ["It determines the file format of the final design",
+            "It ensures that the design meets the needs and expectations of clients and the audience",
+            "It controls how many colors are used in a design", "It replaces the need for creativity"
+          ],
+          answer: 1
+        },
+        {
+          q: "Creativity in graphic design is essential for:",
+          choices: ["Reducing the cost of production", "Making the project stand out and capture attention",
+            "Ensuring designs are printed correctly", "Limiting the number of design revisions"
+          ],
+          answer: 1
+        },
+        {
+          q: "Relevance in graphic design refers to:",
+          choices: ["How old the design tools are",
+            "How closely the design aligns with current trends and industry standards",
+            "Whether the design uses physical or digital media", "The number of colors used in a composition"
+          ],
+          answer: 1
+        },
+        {
+          q: "Quality in graphic design is best described as:",
+          choices: ["The number of revisions made to a design", "The price charged for the design service",
+            "A measure of how well the design meets its intended purpose and is free from defects or errors",
+            "The resolution of the design software used"
+          ],
+          answer: 2
+        },
+      ],
+
+      // W3
+      branding: [{
+          q: "What is the primary objective of branding?",
+          choices: ["To reduce the production cost of goods",
+            "To foster brand loyalty and positive attitudes, which will increase sales",
+            "To create packaging for products only", "To register a trademark with the government"
+          ],
+          answer: 1
+        },
+        {
+          q: "Which of the following is an example of a branding technique?",
+          choices: ["Product expiration date", "Country of origin", "Tagline or mascot", "Net weight on a label"],
+          answer: 2
+        },
+        {
+          q: "A Brand Name is best described as:",
+          choices: ["A visual-only mark that cannot include words",
+            "A name or term used to identify a particular brand or product, often alongside a logo",
+            "The legal registration document of a company", "Only a symbol or icon used for identification"
+          ],
+          answer: 1
+        },
+        {
+          q: "What makes a Brand Mark effective for building customer loyalty?",
+          choices: ["It is always printed in black and white",
+            "It is easily recalled and connected to favorable experiences and impressions of the business",
+            "It contains detailed product information", "It must include the company's full legal name"
+          ],
+          answer: 1
+        },
+        {
+          q: "A Trademark is registered with the government primarily to:",
+          choices: ["Design a new logo", "Allow competitors to use similar marks",
+            "Gain legal protection and make it easier to enforce rights connected to the mark",
+            "Publish product labeling standards"
+          ],
+          answer: 2
+        },
+        {
+          q: "How long is a typical trademark registration valid before it can be renewed?",
+          choices: ["One to five years", "Five to eight years", "Ten to twenty years",
+            "Indefinitely without renewal"
+          ],
+          answer: 2
+        },
+        {
+          q: "Which of the following correctly distinguishes a Brand Mark from a Brand Name?",
+          choices: ["A brand mark is a word or phrase; a brand name is a graphic or icon",
+            "A brand mark is a graphic component like an icon; a brand name is a word or phrase identifying the brand",
+            "Both brand marks and brand names refer to the same thing",
+            "A brand name requires government registration; a brand mark does not"
+          ],
+          answer: 1
+        },
+      ],
+      brandelements: [{
+          q: "Which brand element ensures that your brand components do not conflict with existing intellectual property laws?",
+          choices: ["Memorability", "Cultural Fit", "Legal Considerations", "Flexibility"],
+          answer: 2
+        },
+        {
+          q: "The brand element 'Differentiation' means that your brand's elements should:",
+          choices: ["Copy the style of successful competitors", "Let you stand out from the competition",
+            "Remain identical across all markets", "Be updated every year without fail"
+          ],
+          answer: 1
+        },
+        {
+          q: "Why is 'Flexibility' an important brand element?",
+          choices: ["So the brand can change its identity frequently",
+            "So brand characteristics can be adapted for use in various settings and media",
+            "To ensure the brand targets only one demographic", "To allow competitors to use similar elements"
+          ],
+          answer: 1
+        },
+        {
+          q: "The 'Consistency' element of branding means:",
+          choices: ["All brand aspects should complement each other and the overall brand identity",
+            "Every aspect of the brand should look completely different",
+            "Brand elements must be redesigned annually", "Only one type of media should be used for branding"
+          ],
+          answer: 0
+        },
+        {
+          q: "A brand element that is 'Timeless' means it:",
+          choices: ["Changes with every new marketing trend", "Is only valid for ten years",
+            "Is durable and should not easily go out of style", "Must be redesigned every season"
+          ],
+          answer: 2
+        },
+        {
+          q: "Which brand element focuses on creating an emotional bond between the brand and its target market?",
+          choices: ["Relevance", "Timeless", "Emotional Impact", "Legal Considerations"],
+          answer: 2
+        },
+        {
+          q: "The 'Cultural Fit' element means brand components should be:",
+          choices: ["Identical across all global markets regardless of culture",
+            "Suitable for both the target market and the environment in which they function",
+            "Based solely on international trends", "Always translated into at least five languages"
+          ],
+          answer: 1
+        },
+        {
+          q: "'Memorable' as a brand element means:",
+          choices: ["The brand should be forgotten quickly so it can be refreshed",
+            "Brand contents should be appealing to consumers and simple for them to recall",
+            "Designs should be complex to demonstrate expertise",
+            "Only industry experts should recognize the brand"
+          ],
+          answer: 1
+        },
+      ],
+      packaging: [{
+          q: "What are the major goals of product packaging?",
+          choices: ["To make products look the same as competitors",
+            "To present the product attractively to consumers and safeguard goods during handling, storage, and transportation",
+            "To reduce design costs by eliminating all graphics", "To replace the need for branding entirely"
+          ],
+          answer: 1
+        },
+        {
+          q: "Product labeling is considered crucial in product packaging because:",
+          choices: ["It replaces the need for a brand name",
+            "It gives buyers crucial knowledge about the product and facilitates informed purchasing decisions",
+            "It is only required for food products", "It is optional and left to the manufacturer's discretion"
+          ],
+          answer: 1
+        },
+        {
+          q: "Which package design component refers to logos, pictures, or illustrations that convey a brand's and product's benefits?",
+          choices: ["Shape and Size", "Materials and Sustainability", "Graphics and Imagery",
+            "Net Weight or Volume"],
+          answer: 2
+        },
+        {
+          q: "Why might a business choose eco-friendly packaging materials?",
+          choices: ["To increase the product's weight for shipping purposes",
+            "To appeal to consumers who are concerned about the environment",
+            "To comply with branding color standards", "To avoid including a product expiration date"
+          ],
+          answer: 1
+        },
+        {
+          q: "Which label component must indicate potentially dangerous components or hazards to users?",
+          choices: ["Country of Origin", "Ingredients", "Warnings and Cautionary Notes", "Company Information"],
+          answer: 2
+        },
+        {
+          q: "What does 'Country of Origin' on a product label refer to?",
+          choices: ["The country where the product will be sold",
+            "The nation in which the product was manufactured or put together",
+            "The headquarters of the marketing firm", "The country that regulates product labeling standards"
+          ],
+          answer: 1
+        },
+        {
+          q: "The 'Color and Design' component of packaging serves to:",
+          choices: ["Replace the need for a product name on the label",
+            "Convey a brand's overall appearance and feel and draw in customers",
+            "Indicate the expiration date of the product", "List the manufacturer's contact details"
+          ],
+          answer: 1
+        },
+        {
+          q: "According to the lesson, government entities oversee product labeling in order to:",
+          choices: ["Promote specific brands over others",
+            "Guarantee that information is true and complies with particular criteria",
+            "Limit the number of products in the market", "Enforce trademark registration deadlines"
+          ],
+          answer: 1
+        },
+      ],
+
+      // W4
+      targetaudience: [{
+          q: "What is a 'Target Audience' in the context of product or service design?",
+          choices: ["The entire global population for any product",
+            "The specified set of people for whom a product or service is designed",
+            "Only the designers working on a project", "The competitors of a business"
+          ],
+          answer: 1
+        },
+        {
+          q: "Why is understanding the target audience important when creating a marketing strategy?",
+          choices: ["It helps copy competitor designs more efficiently",
+            "It allows a company to develop goods or marketing initiatives that appeal to and successfully reach that audience",
+            "It eliminates the need for market segmentation", "It determines the physical packaging material only"
+          ],
+          answer: 1
+        },
+        {
+          q: "Market segmentation enables a company to:",
+          choices: ["Target every customer with the same marketing strategy",
+            "Split a market into smaller specialized groups and better serve their requirements",
+            "Avoid differentiating between customer groups", "Use only one product design for all markets"
+          ],
+          answer: 1
+        },
+        {
+          q: "Which of the following is NOT listed as a variable used in market segmentation?",
+          choices: ["Age", "Gender", "Favorite color of the product", "Economic level"],
+          answer: 2
+        },
+        {
+          q: "A company selling children's toys will likely have a different target market compared to a company that sells:",
+          choices: ["Another type of children's toy", "High-end luxury vehicles", "Basic stationery",
+            "Generic packaging materials"
+          ],
+          answer: 1
+        },
+        {
+          q: "According to the lesson, businesses can improve their chances of success by:",
+          choices: ["Ignoring market trends and focusing on cost reduction",
+            "Identifying and comprehending the target market group and audience",
+            "Copying the strategies of the largest competitors",
+            "Selling only one product across all demographics"
+          ],
+          answer: 1
+        },
+      ],
+      segmentvars: [{
+          q: "Which market segment variable includes characteristics such as age, gender, income level, and education level?",
+          choices: ["Psychographic Variable", "Behavioral Variable", "Geographic Variable", "Demographic Variable"],
+          answer: 3
+        },
+        {
+          q: "Psychographic variables are best described as:",
+          choices: ["Characteristics related to a person's location or city",
+            "Characteristics related to a person's values, attitudes, and interests including lifestyle and personality",
+            "Purchasing habits and usage rate of a consumer", "Age, gender, and income level of a customer"
+          ],
+          answer: 1
+        },
+        {
+          q: "A company studying customers' purchasing habits and brand loyalty is analyzing which type of market segment variable?",
+          choices: ["Demographic Variable", "Geographic Variable", "Behavioral Variable", "Psychographic Variable"],
+          answer: 2
+        },
+        {
+          q: "Geographic variables in market segmentation include:",
+          choices: ["A consumer's values and personality traits",
+            "Characteristics related to a person's location such as region, country, or city",
+            "Income level and education background", "Brand loyalty and usage rate"
+          ],
+          answer: 1
+        },
+      ],
+      designfactors: [{
+          q: "Why is it important for designers to know the client's company name and business overview?",
+          choices: ["So they can copy the client's existing designs",
+            "To help designers understand the context and purpose of the design work they are completing",
+            "To determine the client's annual revenue", "To select which font to use for branding"
+          ],
+          answer: 1
+        },
+        {
+          q: "Which of the following is an example of an industry sector a client might operate in?",
+          choices: ["Logo shape preference", "Favorite packaging color", "Healthcare and pharmaceuticals",
+            "Typography style"
+          ],
+          answer: 2
+        },
+        {
+          q: "Knowing whether a design is for a product or a service is important because:",
+          choices: ["It changes the legal registration requirements",
+            "It helps designers create designs that effectively support the client's business goals",
+            "It determines who will print the final design", "It dictates the size of the packaging only"
+          ],
+          answer: 1
+        },
+        {
+          q: "When determining the primary target audience for a design project, which of the following factors should be considered?",
+          choices: ["The designer's personal preferences and style", "Only the client's preferred color palette",
+            "Age, gender, income, occupation, location, and the lifestyle and business needs of the target audience",
+            "The number of years the company has been in business"
+          ],
+          answer: 2
+        },
+      ],
+    };
+    // FLASHCARD STATE
+    // =====================
+
+    const state = {
+      print: {
+        idx: 0,
+        cards: [...CARDS.print]
+      },
+      broadcast: {
+        idx: 0,
+        cards: [...CARDS.broadcast]
+      },
+      new: {
+        idx: 0,
+        cards: [...CARDS.new]
+      },
+      gd: {
+        idx: 0,
+        cards: [...CARDS.gd]
+      },
+      branding: {
+        idx: 0,
+        cards: [...CARDS.branding]
+      },
+      brandelements: {
+        idx: 0,
+        cards: [...CARDS.brandelements]
+      },
+      packaging: {
+        idx: 0,
+        cards: [...CARDS.packaging]
+      },
+      targetaudience: {
+        idx: 0,
+        cards: [...CARDS.targetaudience]
+      },
+      segmentvars: {
+        idx: 0,
+        cards: [...CARDS.segmentvars]
+      },
+      designfactors: {
+        idx: 0,
+        cards: [...CARDS.designfactors]
+      },
+    };
+
+    function renderCard(topic) {
+      const s = state[topic];
+      const c = s.cards[s.idx];
+      document.getElementById(`term-${topic}`).textContent = c.term;
+      document.getElementById(`def-${topic}`).textContent = c.def;
+      document.getElementById(`cnt-${topic}`).textContent = `${s.idx + 1} / ${s.cards.length}`;
+      document.getElementById(`prog-${topic}`).style.width = `${((s.idx + 1) / s.cards.length) * 100}%`;
+      document.getElementById(`prev-${topic}`).disabled = s.idx === 0;
+      document.getElementById(`next-${topic}`).disabled = s.idx === s.cards.length - 1;
+      // reset flip
+      const scene = document.getElementById(`scene-${topic}`);
+      scene.classList.remove('flipped');
+    }
+
+    function flipCard(topic) {
+      document.getElementById(`scene-${topic}`).classList.toggle('flipped');
+    }
+
+    function moveCard(topic, dir) {
+      const s = state[topic];
+      s.idx = Math.max(0, Math.min(s.cards.length - 1, s.idx + dir));
+      renderCard(topic);
+    }
+
+    function shuffleCards(topic) {
+      const s = state[topic];
+      for (let i = s.cards.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [s.cards[i], s.cards[j]] = [s.cards[j], s.cards[i]];
+      }
+      s.idx = 0;
+      renderCard(topic);
+    }
+
+    // =====================
+    // QUIZ
+    // =====================
+
+    const quizState = {
+      print: {
+        score: 0,
+        answered: new Array(QUIZZES.print.length).fill(false)
+      },
+      broadcast: {
+        score: 0,
+        answered: new Array(QUIZZES.broadcast.length).fill(false)
+      },
+      new: {
+        score: 0,
+        answered: new Array(QUIZZES.new.length).fill(false)
+      },
+      gd: {
+        score: 0,
+        answered: new Array(QUIZZES.gd.length).fill(false)
+      },
+      branding: {
+        score: 0,
+        answered: new Array(QUIZZES.branding.length).fill(false)
+      },
+      brandelements: {
+        score: 0,
+        answered: new Array(QUIZZES.brandelements.length).fill(false)
+      },
+      packaging: {
+        score: 0,
+        answered: new Array(QUIZZES.packaging.length).fill(false)
+      },
+      targetaudience: {
+        score: 0,
+        answered: new Array(QUIZZES.targetaudience.length).fill(false)
+      },
+      segmentvars: {
+        score: 0,
+        answered: new Array(QUIZZES.segmentvars.length).fill(false)
+      },
+      designfactors: {
+        score: 0,
+        answered: new Array(QUIZZES.designfactors.length).fill(false)
+      },
+    };
+
+    function buildQuiz(topic) {
+      const qs = QUIZZES[topic];
+      const container = document.getElementById(`quiz-${topic}`);
+      container.innerHTML = '';
+
+      qs.forEach((q, qi) => {
+        const letters = ['A', 'B', 'C', 'D'];
+        const choicesHTML = q.choices.map((c, ci) => `
+      <button class="choice" onclick="answerQ('${topic}', ${qi}, ${ci}, ${q.answer})" id="ch-${topic}-${qi}-${ci}">
+        <span class="choice-letter">${letters[ci]}</span>
+        ${c}
+      </button>
+    `).join('');
+
+        container.innerHTML += `
+      <div class="question-card" id="qcard-${topic}-${qi}">
+        <div class="q-number">Question ${qi + 1}</div>
+        <div class="q-text">${q.q}</div>
+        <div class="choices">${choicesHTML}</div>
+        <div class="explanation" id="exp-${topic}-${qi}"></div>
+      </div>
+    `;
+      });
+
+      updateQuizScore(topic);
+    }
+
+    function answerQ(topic, qi, chosen, correct) {
+      const qs = quizState[topic];
+      if (qs.answered[qi]) return;
+      qs.answered[qi] = true;
+
+      const q = QUIZZES[topic][qi];
+      const letters = ['A', 'B', 'C', 'D'];
+
+      // disable all buttons in this question
+      q.choices.forEach((_, ci) => {
+        const btn = document.getElementById(`ch-${topic}-${qi}-${ci}`);
+        btn.disabled = true;
+        if (ci === correct) btn.classList.add('correct');
+        else if (ci === chosen) btn.classList.add('wrong');
+      });
+
+      const expEl = document.getElementById(`exp-${topic}-${qi}`);
+      if (chosen === correct) {
+        qs.score++;
+        expEl.className = 'explanation show correct-exp';
+        expEl.textContent = `✓ Correct! The answer is ${letters[correct]}: ${q.choices[correct]}`;
+      } else {
+        expEl.className = 'explanation show wrong-exp';
+        expEl.textContent = `✗ Incorrect. The correct answer is ${letters[correct]}: ${q.choices[correct]}`;
+      }
+
+      updateQuizScore(topic);
+    }
+
+    function updateQuizScore(topic) {
+      const qs = quizState[topic];
+      const answered = qs.answered.filter(Boolean).length;
+      document.getElementById(`q-score-${topic}`).textContent = qs.score;
+      document.getElementById(`q-total-${topic}`).textContent = answered;
+    }
+
+    function resetQuiz(topic) {
+      quizState[topic] = {
+        score: 0,
+        answered: new Array(QUIZZES[topic].length).fill(false)
+      };
+      buildQuiz(topic);
+    }
+
+    // =====================
+    // TABS
+    // =====================
+
+    function showSection(id) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      event.currentTarget.classList.add('active');
+    }
+
+    // =====================
+    // INIT
+    // =====================
+
+    ['print', 'broadcast', 'new', 'gd', 'branding', 'brandelements', 'packaging', 'targetaudience', 'segmentvars',
+      'designfactors'
+    ].forEach(t => {
+      renderCard(t);
+      buildQuiz(t);
+    });
+  </script>
+</body>
+
+</html>
