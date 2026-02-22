@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MADS 211 — Week 2: Types of Media</title>
+  <title>MADS 211 — Weeks 2–5</title>
   <link
     href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap"
     rel="stylesheet">
@@ -557,10 +557,10 @@
 <body>
 
   <header>
-    <div class="badge">W2–W4</div>
+    <div class="badge">W2–W5</div>
     <div>
-      <h1>Types of Media · Branding · Target Audience</h1>
-      <p>MADS 211 — Multimedia and Design · Weeks 2, 3 &amp; 4</p>
+      <h1>Types of Media · Branding · Target Audience · Visual Graphics</h1>
+      <p>MADS 211 — Multimedia and Design · Weeks 2, 3, 4 &amp; 5</p>
     </div>
   </header>
 
@@ -571,6 +571,8 @@
     <button class="tab-btn" onclick="showSection('quiz3')">W3 Quiz</button>
     <button class="tab-btn" onclick="showSection('flashcards4')">W4 Flashcards</button>
     <button class="tab-btn" onclick="showSection('quiz4')">W4 Quiz</button>
+    <button class="tab-btn" onclick="showSection('flashcards5')">W5 Flashcards</button>
+    <button class="tab-btn" onclick="showSection('quiz5')">W5 Quiz</button>
   </nav>
 
   <main>
@@ -1139,6 +1141,132 @@
 
     </div><!-- end quiz4 -->
 
+    <!-- W5 FLASHCARDS -->
+    <div id="flashcards5" class="section">
+      <div class="topic-header">
+        <div class="topic-dot" style="background:#e63946"></div>
+        <div><h2>Design Brief</h2><span>6 cards</span></div>
+      </div>
+      <div id="fc-designbrief">
+        <div class="progress-bar"><div class="progress-fill" id="prog-designbrief"></div></div>
+        <div class="flashcard-nav">
+          <span class="fc-counter" id="cnt-designbrief">1 / 6</span>
+          <div class="fc-controls">
+            <button class="icon-btn" id="prev-designbrief" onclick="moveCard('designbrief',-1)" disabled>&#8592;</button>
+            <button class="icon-btn" onclick="shuffleCards('designbrief')">&#8652;</button>
+            <button class="icon-btn" id="next-designbrief" onclick="moveCard('designbrief',1)">&#8594;</button>
+          </div>
+        </div>
+        <div class="scene" id="scene-designbrief" onclick="flipCard('designbrief')">
+          <div class="card-inner"><div class="card-face card-front"><div class="card-label">Term</div><div class="card-term" id="term-designbrief"></div><div class="card-hint">Tap to reveal definition</div></div><div class="card-face card-back"><div class="card-label">Definition</div><div class="card-def" id="def-designbrief"></div></div></div>
+        </div>
+        <p class="tap-hint">&#8593; tap card to flip</p>
+      </div>
+      <div class="topic-sep"></div>
+      <div class="topic-header">
+        <div class="topic-dot" style="background:#f4a261"></div>
+        <div><h2>Graphic Applications &amp; Principles</h2><span>8 cards</span></div>
+      </div>
+      <div id="fc-graphicapps">
+        <div class="progress-bar"><div class="progress-fill" id="prog-graphicapps"></div></div>
+        <div class="flashcard-nav">
+          <span class="fc-counter" id="cnt-graphicapps">1 / 8</span>
+          <div class="fc-controls">
+            <button class="icon-btn" id="prev-graphicapps" onclick="moveCard('graphicapps',-1)" disabled>&#8592;</button>
+            <button class="icon-btn" onclick="shuffleCards('graphicapps')">&#8652;</button>
+            <button class="icon-btn" id="next-graphicapps" onclick="moveCard('graphicapps',1)">&#8594;</button>
+          </div>
+        </div>
+        <div class="scene" id="scene-graphicapps" onclick="flipCard('graphicapps')">
+          <div class="card-inner"><div class="card-face card-front"><div class="card-label">Term</div><div class="card-term" id="term-graphicapps"></div><div class="card-hint">Tap to reveal definition</div></div><div class="card-face card-back"><div class="card-label">Definition</div><div class="card-def" id="def-graphicapps"></div></div></div>
+        </div>
+        <p class="tap-hint">&#8593; tap card to flip</p>
+      </div>
+      <div class="topic-sep"></div>
+      <div class="topic-header">
+        <div class="topic-dot" style="background:#52b788"></div>
+        <div><h2>Intellectual Property Rights</h2><span>4 cards</span></div>
+      </div>
+      <div id="fc-ipr">
+        <div class="progress-bar"><div class="progress-fill" id="prog-ipr"></div></div>
+        <div class="flashcard-nav">
+          <span class="fc-counter" id="cnt-ipr">1 / 4</span>
+          <div class="fc-controls">
+            <button class="icon-btn" id="prev-ipr" onclick="moveCard('ipr',-1)" disabled>&#8592;</button>
+            <button class="icon-btn" onclick="shuffleCards('ipr')">&#8652;</button>
+            <button class="icon-btn" id="next-ipr" onclick="moveCard('ipr',1)">&#8594;</button>
+          </div>
+        </div>
+        <div class="scene" id="scene-ipr" onclick="flipCard('ipr')">
+          <div class="card-inner"><div class="card-face card-front"><div class="card-label">Term</div><div class="card-term" id="term-ipr"></div><div class="card-hint">Tap to reveal definition</div></div><div class="card-face card-back"><div class="card-label">Definition</div><div class="card-def" id="def-ipr"></div></div></div>
+        </div>
+        <p class="tap-hint">&#8593; tap card to flip</p>
+      </div>
+      <div class="topic-sep"></div>
+      <div class="topic-header">
+        <div class="topic-dot" style="background:#a8dadc"></div>
+        <div><h2>Factors Affecting Visual Graphic Design</h2><span>7 cards</span></div>
+      </div>
+      <div id="fc-vgdfactors">
+        <div class="progress-bar"><div class="progress-fill" id="prog-vgdfactors"></div></div>
+        <div class="flashcard-nav">
+          <span class="fc-counter" id="cnt-vgdfactors">1 / 7</span>
+          <div class="fc-controls">
+            <button class="icon-btn" id="prev-vgdfactors" onclick="moveCard('vgdfactors',-1)" disabled>&#8592;</button>
+            <button class="icon-btn" onclick="shuffleCards('vgdfactors')">&#8652;</button>
+            <button class="icon-btn" id="next-vgdfactors" onclick="moveCard('vgdfactors',1)">&#8594;</button>
+          </div>
+        </div>
+        <div class="scene" id="scene-vgdfactors" onclick="flipCard('vgdfactors')">
+          <div class="card-inner"><div class="card-face card-front"><div class="card-label">Term</div><div class="card-term" id="term-vgdfactors"></div><div class="card-hint">Tap to reveal definition</div></div><div class="card-face card-back"><div class="card-label">Definition</div><div class="card-def" id="def-vgdfactors"></div></div></div>
+        </div>
+        <p class="tap-hint">&#8593; tap card to flip</p>
+      </div>
+    </div><!-- end flashcards5 -->
+
+    <!-- W5 QUIZ -->
+    <div id="quiz5" class="section">
+      <div class="topic-header">
+        <div class="topic-dot" style="background:#e63946"></div>
+        <div><h2>Design Brief &#8212; Quiz</h2><span>Multiple Choice</span></div>
+      </div>
+      <div class="quiz-header">
+        <div class="quiz-score-badge">Score: <span id="q-score-designbrief">0</span> / <span id="q-total-designbrief">0</span></div>
+        <button class="btn secondary" onclick="resetQuiz('designbrief')">Reset</button>
+      </div>
+      <div id="quiz-designbrief"></div>
+      <div class="topic-sep"></div>
+      <div class="topic-header">
+        <div class="topic-dot" style="background:#f4a261"></div>
+        <div><h2>Graphic Applications &amp; Principles &#8212; Quiz</h2><span>Multiple Choice</span></div>
+      </div>
+      <div class="quiz-header">
+        <div class="quiz-score-badge">Score: <span id="q-score-graphicapps">0</span> / <span id="q-total-graphicapps">0</span></div>
+        <button class="btn secondary" onclick="resetQuiz('graphicapps')">Reset</button>
+      </div>
+      <div id="quiz-graphicapps"></div>
+      <div class="topic-sep"></div>
+      <div class="topic-header">
+        <div class="topic-dot" style="background:#52b788"></div>
+        <div><h2>Intellectual Property Rights &#8212; Quiz</h2><span>Multiple Choice</span></div>
+      </div>
+      <div class="quiz-header">
+        <div class="quiz-score-badge">Score: <span id="q-score-ipr">0</span> / <span id="q-total-ipr">0</span></div>
+        <button class="btn secondary" onclick="resetQuiz('ipr')">Reset</button>
+      </div>
+      <div id="quiz-ipr"></div>
+      <div class="topic-sep"></div>
+      <div class="topic-header">
+        <div class="topic-dot" style="background:#a8dadc"></div>
+        <div><h2>Factors Affecting Visual Graphic Design &#8212; Quiz</h2><span>Multiple Choice</span></div>
+      </div>
+      <div class="quiz-header">
+        <div class="quiz-score-badge">Score: <span id="q-score-vgdfactors">0</span> / <span id="q-total-vgdfactors">0</span></div>
+        <button class="btn secondary" onclick="resetQuiz('vgdfactors')">Reset</button>
+      </div>
+      <div id="quiz-vgdfactors"></div>
+    </div><!-- end quiz5 -->
+
   </main>
 
   <script>
@@ -1468,6 +1596,41 @@
           term: "Primary Target Audience",
           def: "When determining the target audience for a design project, it is important to consider factors such as age, gender, income, occupation, and location. In addition to these demographic characteristics, it is also helpful to consider the lifestyle and business needs of the target audience in order to create designs that are relevant and effective."
         },
+      ],
+
+      // W5
+      designbrief: [
+        { term: 'Design Brief', def: 'A document that outlines the objectives, requirements, and constraints of a design project. It provides a clear and concise summary of what needs to be designed, for whom it is being designed, and how it will be used. It serves as a road map for the design process.' },
+        { term: 'Project Overview', def: 'A section of the design brief that gives a broad overview of the design project, including a high-level summary of what will be produced, the project goals and parameters, and the target market and intended purpose of the finished product.' },
+        { term: 'Goals and Objectives', def: 'Goals are the overall aim of a project; objectives are specific, measurable milestones that help reach those goals. Both must be defined in the design brief to guide the work and keep the project on track.' },
+        { term: 'Target Market / Audience', def: 'The specific group of people for whom the design is being created. Understanding the audience requires creating a persona that considers demographics, psychographics, and the problems the solution addresses.' },
+        { term: 'Budget and Schedule', def: 'The financial limitations and timeline constraints of a design project. Clearly defining the budget, internal deadlines, and key milestones from the beginning prevents conflicts and scope creep.' },
+        { term: 'Project Deliverables', def: 'The specific outputs expected at the end of a design project. Clarifying deliverables early — including file formats, sizes, and resolutions — ensures all stakeholders are aligned on what will be produced.' },
+      ],
+      graphicapps: [
+        { term: 'Graphics', def: 'Visual representations of information, facts, or concepts. They can take the shape of photographs, diagrams, charts, maps, or other visual media, and can be static or dynamic. Graphics help convey complex information in an easier-to-understand way.' },
+        { term: 'Raster Graphics Editors', def: 'Software programs used to create and edit raster graphics, which are made up of pixels. Unlike vector graphics, raster images can lose quality when scaled. Examples include Adobe Photoshop and GIMP.' },
+        { term: 'Vector Graphics Editors', def: 'Software programs used to create and edit vector graphics, which are made up of mathematical lines and curves. Vector graphics can scale without losing quality. Examples include Adobe Illustrator and Inkscape.' },
+        { term: 'Page Layout Software', def: 'Programs used to create print documents such as brochures, magazines, and books. Examples include Adobe InDesign and QuarkXPress.' },
+        { term: 'Balance', def: 'A design principle referring to the distribution of visual elements — including whitespace, the size of objects, and color — so that no one part of the design feels heavier than another.' },
+        { term: 'Contrast', def: 'A design principle referring to the use of differences in visual elements — such as size, color, and texture — to draw attention and create emphasis.' },
+        { term: 'Hierarchy', def: 'A design principle referring to the arrangement of visual elements to indicate importance and create a clear visual flow, guiding the viewer through the content.' },
+        { term: 'Repetition and Proximity', def: 'Repetition is the use of repeated elements (color, shape, pattern) to create unity. Proximity is the arrangement of related elements close together to signal a relationship between them.' },
+      ],
+      ipr: [
+        { term: 'Patent', def: 'An exclusive right granted to an invention, giving the owner the authority to decide if or how others may use it. In return, technical details are published for public consumption. Protection is generally granted for twenty years from the filing date.' },
+        { term: 'Trade Secret', def: 'Intellectual property rights over confidential knowledge that can be licensed or sold. Obtaining, using, or disclosing such information without authorization is considered unfair. Protection can continue indefinitely as long as the secret is not revealed to the public.' },
+        { term: 'Trademark', def: 'A sign or symbol used to uniquely identify a product or service and distinguish it from others. Trademark registration is typically valid for ten years and can be renewed indefinitely upon payment of additional fees.' },
+        { term: 'Copyright', def: 'Legal protection giving creators — authors, musicians, filmmakers, programmers, and others — the sole right to their works. The time limit is generally at least fifty years after the creator\u2019s death, though longer periods may apply nationally.' },
+      ],
+      vgdfactors: [
+        { term: 'Purpose of the Design', def: 'The intended goal of a design project, which influences all creative choices including layout, color, typography, and imagery.' },
+        { term: 'Target Audience (Design Factor)', def: 'The specific group the design is aimed at. Different audiences respond to different design elements, so understanding the audience shapes key design decisions.' },
+        { term: 'Medium', def: 'The platform or format in which the design will be presented (e.g., print, web, mobile). Different media have different technical limitations and requirements that affect the design process.' },
+        { term: 'Brand or Message', def: 'If the design is part of a larger branding effort, the brand’s values and messaging must be incorporated so the design aligns with the overall identity.' },
+        { term: 'Design Trends', def: 'Current stylistic directions in graphic design. Designers must be aware of trends while striking a balance between being trendy and being timeless.' },
+        { term: 'Design Constraints', def: 'Specific requirements or limitations a design must adhere to, such as color palettes, layout sizes, file formats, or budget restrictions.' },
+        { term: 'Designer’s Personal Style', def: 'Each designer brings their own unique perspective and creative approach to their work, which can influence the visual outcome of the final design.' },
       ],
     };
 
@@ -1987,6 +2150,32 @@
           answer: 2
         },
       ],
+
+      // W5
+      designbrief: [
+        { q: 'What is the primary purpose of a design brief?', choices: ['To showcase the designer’s portfolio', 'To outline the objectives, requirements, and constraints of a design project', 'To list all software tools that will be used', 'To record the client’s payment history'], answer: 1 },
+        { q: 'Which section of a design brief gives a high-level summary of the project without excessive detail?', choices: ['Budget and Schedule', 'Project Deliverables', 'Project Overview', 'Target Audience'], answer: 2 },
+        { q: 'Goals in a design brief refer to:', choices: ['Specific measurable milestones', 'The overall aim of the project', 'File formats for deliverables', 'The client’s company history'], answer: 1 },
+        { q: 'Why is it important to clarify budget and timeline at the start of a design project?', choices: ['To allow the designer to overcharge', 'To prevent conflicts and scope creep', 'To skip the approval process', 'To reduce the number of revisions to zero'], answer: 1 },
+      ],
+      graphicapps: [
+        { q: 'Which type of graphics editor works with pixel-based images?', choices: ['Vector Graphics Editor', 'Page Layout Software', 'Raster Graphics Editor', '3D Modeling Software'], answer: 2 },
+        { q: 'Adobe Illustrator is an example of which type of software?', choices: ['Raster Graphics Editor', 'Video Editing Software', 'Page Layout Software', 'Vector Graphics Editor'], answer: 3 },
+        { q: 'Which design principle refers to the arrangement of elements to indicate importance and guide the viewer’s eye?', choices: ['Balance', 'Repetition', 'Hierarchy', 'Proximity'], answer: 2 },
+        { q: 'Contrast in graphic design is best described as:', choices: ['Repeating the same element throughout a design', 'Placing related elements close together', 'Using differences in size, color, or texture to draw attention', 'Evenly distributing visual weight across a design'], answer: 2 },
+      ],
+      ipr: [
+        { q: 'How long is a patent typically valid from the filing date?', choices: ['Five years', 'Ten years', 'Twenty years', 'Indefinitely'], answer: 2 },
+        { q: 'Which type of intellectual property protection can last indefinitely as long as information remains undisclosed?', choices: ['Patent', 'Copyright', 'Trademark', 'Trade Secret'], answer: 3 },
+        { q: 'Copyright protection generally lasts for how long after the creator\u2019s death?', choices: ['Ten years', 'Twenty years', 'At least fifty years', 'Five years'], answer: 2 },
+        { q: 'Which of the following is the primary purpose of intellectual property rights?', choices: ['To give the government control over creative works', 'To allow free distribution of all creative content', 'To encourage innovation by giving creators protection and fair reward', 'To prevent any sharing of ideas between companies'], answer: 2 },
+      ],
+      vgdfactors: [
+        { q: 'Which factor in visual graphic design refers to the platform (print, web, mobile) where the design will appear?', choices: ['Design Constraints', 'Medium', 'Designer’s Personal Style', 'Brand or Message'], answer: 1 },
+        { q: 'Why is the purpose of the design considered an important factor?', choices: ['It determines how long the design will take to print', 'It influences choices about layout, color, typography, and imagery', 'It decides the price of the design software', 'It selects the target country for the product'], answer: 1 },
+        { q: 'Design Constraints in visual graphic design include:', choices: ['The designer’s mood and preferences', 'The client’s personal hobbies', 'Specific color palettes, layout sizes, file formats, or budget restrictions', 'The number of fonts available in the software'], answer: 2 },
+        { q: 'Why must designers balance being trendy and being timeless when considering design trends?', choices: ['Because trends never change', 'To avoid using any color in designs', 'So the design remains effective and relevant beyond the current moment', 'Because clients always prefer outdated styles'], answer: 2 },
+      ],
     };
     // FLASHCARD STATE
     // =====================
@@ -2032,6 +2221,10 @@
         idx: 0,
         cards: [...CARDS.designfactors]
       },
+      designbrief: { idx: 0, cards: [...CARDS.designbrief] },
+      graphicapps: { idx: 0, cards: [...CARDS.graphicapps] },
+      ipr: { idx: 0, cards: [...CARDS.ipr] },
+      vgdfactors: { idx: 0, cards: [...CARDS.vgdfactors] },
     };
 
     function renderCard(topic) {
@@ -2113,6 +2306,10 @@
         score: 0,
         answered: new Array(QUIZZES.designfactors.length).fill(false)
       },
+      designbrief: { score: 0, answered: new Array(QUIZZES.designbrief.length).fill(false) },
+      graphicapps: { score: 0, answered: new Array(QUIZZES.graphicapps.length).fill(false) },
+      ipr: { score: 0, answered: new Array(QUIZZES.ipr.length).fill(false) },
+      vgdfactors: { score: 0, answered: new Array(QUIZZES.vgdfactors.length).fill(false) },
     };
 
     function buildQuiz(topic) {
@@ -2202,7 +2399,7 @@
     // =====================
 
     ['print', 'broadcast', 'new', 'gd', 'branding', 'brandelements', 'packaging', 'targetaudience', 'segmentvars',
-      'designfactors'
+      'designfactors', 'designbrief', 'graphicapps', 'ipr', 'vgdfactors'
     ].forEach(t => {
       renderCard(t);
       buildQuiz(t);
